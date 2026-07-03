@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import "tailwindcss";
+
+body {
+    font-family: "IBM Plex Mono", monospace, sans-serif;
+}
+
+a:link:hover {
+    text-decoration: underline;
+}
+
+/*
+Source - https://stackoverflow.com/q/66928095
+Posted by lehtia
+Retrieved 2026-03-05, License - CC BY-SA 4.0
+*/
+
+/* a::after{
+    content:'';
+    position: relative;
+    left: 0.1em;
+    height: 9px;
+    width: 9px;
+    margin-right: 0.1em;
+    background: url('http://cdn.onlinewebfonts.com/svg/img_423119.png');
+    background-size: auto;
+    background-size: 9px 9px;
+    vertical-align: 5px;
+    opacity: 0.8;
+    display: inline-block;
+} */
