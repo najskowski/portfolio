@@ -5,14 +5,11 @@ type SectionWrapperProps = {
     name: string;
 };
 
-export default function SectionWrapper({
-    children,
-    name,
-}: SectionWrapperProps) {
+export default function SectionWrapper({ children, name }: SectionWrapperProps) {
     return (
         <section aria-label={name}>
             <div className="text-sm italic">{`<!-- ${name} -->`}</div>
-            <div className="py-1.5 text-pretty">{children}</div>
+            <div className="py-1.5 text-pretty space-y-1.5">{children}</div>
             {/*<div className="text-sm">{`</${name}>`}</div>*/}
         </section>
     );

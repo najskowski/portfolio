@@ -4,9 +4,9 @@ import { useState } from "react";
 import * as v from "valibot";
 
 export default function Contact() {
-    const [status, setStatus] = useState<
-        "none" | "sending" | "success" | `error=${string}`
-    >("none");
+    const [status, setStatus] = useState<"none" | "sending" | "success" | `error=${string}`>(
+        "none",
+    );
     const action = async (formData: FormData) => {
         setStatus("sending");
         const validation = v.safeParse(contactFormSchema, {
@@ -31,10 +31,7 @@ export default function Contact() {
                     <p className="text-white text-3xl">Message sent :)!</p>
                 </div>
             ) : (
-                <form
-                    action={action}
-                    className="flex flex-col gap-3 w-2/3 mx-auto"
-                >
+                <form action={action} className="flex flex-col gap-3 w-2/3 mx-auto">
                     <input
                         type="email"
                         name="email"
@@ -49,19 +46,14 @@ export default function Contact() {
                     />
                     <button
                         type="submit"
-                        disabled={
-                            status !== "none" && !status.includes("error")
-                        }
+                        disabled={status !== "none" && !status.includes("error")}
                         className="bg-blue-600 text-white py-1.5 disabled:bg-neutral-700"
                     >
                         submit
                     </button>
                     {status.includes("error=") ? (
                         <p className="text-red-500">
-                            {
-                                JSON.parse(status.split("error=")[1] ?? "[]")[0]
-                                    .message
-                            }
+                            {JSON.parse(status.split("error=")[1] ?? "[]")[0].message}
                         </p>
                     ) : null}
                 </form>

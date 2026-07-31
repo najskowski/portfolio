@@ -4,6 +4,7 @@ import Banner from "./components/banner";
 import Socials from "./components/socials";
 import Navigation from "./components/navigation";
 import Contact from "./routes/contact";
+import Projects from "./routes/projects";
 
 export function App() {
     return (
@@ -16,6 +17,7 @@ export function App() {
             <div className="w-full bg-black h-px" />
             <Switch>
                 <Route path="/contact" component={Contact} />
+                <Route path="/projects" component={Projects} />
                 <Route path="*" component={Home} />
             </Switch>
         </div>

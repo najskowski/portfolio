@@ -19,7 +19,9 @@ const server = serve({
                 if (!validation.success) {
                     return Response.json({ error: "Validation failed" }, { status: 400 });
                 }
-                db.query("INSERT INTO msg (email, message) VALUES ($email, $message)").run(validation.output);
+                db.query("INSERT INTO msg (email, message) VALUES ($email, $message)").run(
+                    validation.output,
+                );
                 return Response.json(null, { status: 201 });
             },
         },
