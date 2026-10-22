@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+    body {
+        font-family: "Plus Jakarta Sans Variable", sans-serif;
+        @apply bg-neutral-100 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50;
+    }
+}
+
+@keyframes fade-in-unblur {
+    from {
+        opacity: 0.5;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@theme inline {
+    --animate-appear: fade-in-unblur 0.5s ease-in-out both;
+}
+
+button:not(:disabled):hover {
+    cursor: pointer;
+}
+
+a:link:hover {
+    @apply underline;
+}
+
+h3 {
+    line-height: 18px;
+}
+
+.parallelogram {
+    aspect-ratio: 3/2;
+    clip-path: polygon(var(50px) 0,100% 0,calc(100% - var(50px)) 100%,0 100%);
+}
