@@ -7,6 +7,11 @@ import { defineConfig } from "vite";
 
 const config = defineConfig({
     resolve: { tsconfigPaths: true },
+    server: {
+        watch: {
+            ignored: ["**/*.sqlite", "**/*.sqlite-*", "**/repos/**"],
+        },
+    },
     plugins: [
         devtools(),
         tailwindcss(),

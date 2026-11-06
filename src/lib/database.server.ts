@@ -1,32 +1,35 @@
-import { Database } from "bun:sqlite";
+import { SqliteClient, SqliteMigrator } from "@effect/sql-sqlite-bun";
+import { Effect, Layer, ManagedRuntime } from "effect";
+import { SqlClient } from "effect/sql";
 
-import { ok, Result } from "neverthrow";
+export const makeDatabaseLayer = (filename: string) => {
+    const SqliteLive = SqliteClient.layer({
+        filename,
+        create: true,
+    });
 
-const schema = `CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT NOT NULL,
-        content TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );`;
+    return SqliteMigrator.layer({
+        loader: SqliteMigrator.fromRecord({
+            "0001_create_messages": Effect.gen(function* () {
+                const sql = yield* SqlClient.SqlClient;
+                yield* sql`
+                CREATE TABLE IF NOT EXISTS messages (
+                    id INTEGER PRIMARY KEY,
+                    email TEXT CHECK(email IS NULL OR length(email) BETWEEN 3 AND 320),
+                    content TEXT NOT NULL CHECK(length(content) BETWEEN 1 AND 1024),
+                    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                )
+            `;
+            }),
+        }),
+    }).pipe(Layer.provideMerge(SqliteLive));
+};
 
-export type DatabaseError = { message: string };
+// Keep the scoped SQLite connection and migration state alive across requests.
+export const DatabaseRuntime = ManagedRuntime.make(makeDatabaseLayer("database.sqlite"));
 
-const toDatabaseError = (error: unknown): DatabaseError => ({
-    message: error instanceof Error ? error.message : "Failed to initialize the database.",
-});
-
-const initializeDatabase = Result.fromThrowable(() => {
-    const database = new Database("db.sqlite");
-    database.run(schema);
-    return database;
-}, toDatabaseError);
-
-let instance: Database | undefined;
-
-export function getDatabaseInstance(): Result<Database, DatabaseError> {
-    if (instance) return ok(instance);
-    return initializeDatabase().map((database) => {
-        instance = database;
-        return database;
+if (import.meta.hot) {
+    import.meta.hot.dispose(() => {
+        void DatabaseRuntime.dispose();
     });
 }

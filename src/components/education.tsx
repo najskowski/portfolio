@@ -2,7 +2,7 @@ import Section from "./section";
 
 export default function Education() {
     return (
-        <Section foldable>
+        <Section>
             <h3 className="text-2xl font-semibold">Education</h3>
             <div className="flex flex-col space-y-2.5 mt-5">
                 <div className="-space-y-1">
